@@ -103,6 +103,14 @@ static NSString *const kCompletedCallbackKey = @"completed";
         request.HTTPShouldHandleCookies = NO;
         request.HTTPShouldUsePipelining = YES;
         [request addValue:@"image/*" forHTTPHeaderField:@"Accept"];
+        
+        [request addValue:@"application/json" forHTTPHeaderField:@"Accept-Language"];
+        [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        if ([defaults objectForKey:@"X_BBM_API_KEY"])
+            [request addValue:[defaults objectForKey:@"X_BBM_API_KEY"] forHTTPHeaderField:@"X_BBM_API_KEY"];
+        
         operation = [SDWebImageDownloaderOperation.alloc initWithRequest:request queue:wself.workingQueue options:options progress:^(NSUInteger receivedSize, long long expectedSize)
         {
             if (!wself) return;
